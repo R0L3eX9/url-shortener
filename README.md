@@ -4,6 +4,7 @@ A URL Shortener written in Go to learn more about Go and Redis.
 
 ## Endpoints
 POST - /api/create -> requires the url to be shorten
+
 GET - /app/<shorten_url> -> redirects user to the url linked to the shorten_url
 
 

@@ -86,9 +86,6 @@ func connect_db() *redis.Client {
 }
 
 func main() {
-	// POST - /api/create -> give a url and we generate a random url
-	// GET  - /app/<shorten-url> -> sends user to the actual url
-
 	http.HandleFunc("/api/create", createHandler)
     http.HandleFunc("/app/", redirectHandler)
 
