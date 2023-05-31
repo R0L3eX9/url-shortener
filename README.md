@@ -9,7 +9,9 @@ GET - /app/<shorten_url> -> redirects user to the url linked to the shorten_url
 
 
 ## TODO
-* [ ] Run Redis on localhost
-* [ ] Successfully set a value in the Redis db
-* [ ] Successfully read a value from the Redis db
-* [ ] Successfully redirect the user to the desired address 
+* [x] Run Redis on localhost
+* [x] Successfully set a value in the Redis db
+* [x] Successfully read a value from the Redis db
+* [x] Successfully redirect the user to the desired address 
+* [ ] Check if the generated URL is unique
+* [ ] Change seed for the random URL

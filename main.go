@@ -14,7 +14,6 @@ import (
 )
 
 func generate_url() string {
-    // TODO: change rand seed
 	const CHAR_SET = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	const URL_LEN = 10
 
@@ -83,7 +82,6 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         http.Error(w, "URL not found in the database", http.StatusBadRequest)
     }
-	// check if the url is in db
     http.Redirect(w, r, shorten_url, http.StatusSeeOther)
 }
 
