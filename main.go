@@ -2,19 +2,16 @@ package main
 
 import (
 	"context"
-    "encoding/json"
+	"io/ioutil"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
-    "strings"
+	"strings"
 
 	"github.com/redis/go-redis/v9"
 )
-
-type URL struct {
-	url         string
-}
 
 func generate_url() string {
     // TODO: change rand seed
@@ -30,6 +27,10 @@ func generate_url() string {
 	return string(random_url)
 }
 
+type Url struct {
+    Url string `json:"url"`
+}
+
 func createHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/api/create" {
 		http.Error(w, "404, not found", http.StatusNotFound)
@@ -41,17 +42,27 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+    json_data, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+		http.Error(w, "Body does not respect the schema!", http.StatusBadRequest)
+        return
+    }
 
-    var url string
-    json.NewDecoder(r.Body).Decode(&url)
+    var url Url
+    err = json.Unmarshal(json_data, &url)
+    if err != nil {
+		http.Error(w, "Data couldn't be unmarshaled", http.StatusBadRequest)
+        return
+    }
 	shorten_url := generate_url()
 
     ctx := context.Background()
     client := connect_db()
-    err := client.Set(ctx, shorten_url, url , 0).Err()
+    err = client.Set(ctx, shorten_url, url.Url , 0).Err()
 
     if err != nil {
         http.Error(w, "Database is down", http.StatusExpectationFailed)
+        return
     }
 
 
@@ -72,9 +83,8 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         http.Error(w, "URL not found in the database", http.StatusBadRequest)
     }
-    http.Redirect(w, r, shorten_url, http.StatusSeeOther)
 	// check if the url is in db
-	// redirect if it is
+    http.Redirect(w, r, shorten_url, http.StatusSeeOther)
 }
 
 func connect_db() *redis.Client {
