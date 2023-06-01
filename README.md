@@ -13,5 +13,6 @@ GET - /app/<shorten_url> -> redirects user to the url linked to the shorten_url
 * [x] Successfully set a value in the Redis db
 * [x] Successfully read a value from the Redis db
 * [x] Successfully redirect the user to the desired address 
-* [ ] Check if the generated URL is unique
-* [ ] Change seed for the random URL
+* [x] Check if the generated URL is unique
+* [x] Change seed for the random URL
+* [ ] Add a frontend
