@@ -16,3 +16,5 @@ GET - /app/<shorten_url> -> redirects user to the url linked to the shorten_url
 * [x] Check if the generated URL is unique
 * [x] Change seed for the random URL
 * [ ] Add a frontend
+* [ ] Post data from the frontedn
+* [ ] Use .env

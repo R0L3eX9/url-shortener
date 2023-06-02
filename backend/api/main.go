@@ -48,6 +48,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+    fmt.Println("Shortening URL")
 	ctx := context.Background()
 	client := ConnectDb()
 	shortenURL := generate_url()
@@ -65,7 +66,12 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Your url is: %s\n", shortenURL)
+    w.WriteHeader(http.StatusOK)
+    w.Header().Set("Content-Type", "application/json")
+    payload := Url {
+        Url: shortenURL,
+    }
+    json.NewEncoder(w).Encode(payload)
 }
 
 func RedirectHandler(w http.ResponseWriter, r *http.Request) {
